@@ -3,39 +3,33 @@ package main
 import "testing"
 
 func Test_checkPrime(t *testing.T) {
-	// Test 1
-	result, outcome := checkPrime(0)
-
-	if result {
-		t.Error("condition: 0 | expected false, got true")
+	primeTests := []struct {
+		condition string
+		data      int
+		result    bool
+		outcome   string
+	}{
+		{"0 is not prime", 0, false, "0 is not prime"},
+		{"4 is not prime", 4, false, "4 is not prime; divisible by 2"},
+		{"7 is prime", 7, true, "7 is prime"},
 	}
 
-	if outcome != "0 is not prime" {
-		t.Error("incorrect outcome")
-		t.Errorf("expected: 0 is not prime | got: %s", outcome)
-	}
+	for _, test := range primeTests {
+		result, outcome := checkPrime(test.data)
 
-	// Test 2
-	result, outcome = checkPrime(4)
+		if test.result && !result {
+			t.Errorf("FAIL: %s - checkPrime(%d) was %t; expected %t",
+				test.condition, test.data, result, test.result)
+		}
 
-	if result {
-		t.Error("condition: 4 | expected false, got true")
-	}
+		if !test.result && result {
+			t.Errorf("FAIL: %s - checkPrime(%d) was %t; expected %t",
+				test.condition, test.data, result, test.result)
+		}
 
-	if outcome != "4 is not prime; divisible by 2" {
-		t.Error("incorrect outcome")
-		t.Errorf("expected: 4 is not prime; divisible by 2 | got: %s", outcome)
-	}
-
-	// Test 3
-	result, outcome = checkPrime(7)
-
-	if !result {
-		t.Error("condition: 7 | expected true, got false")
-	}
-
-	if outcome != "7 is prime" {
-		t.Error("incorrect outcome")
-		t.Errorf("expected: 7 is prime | got: %s", outcome)
+		if test.outcome != outcome {
+			t.Errorf("FAIL: %s - checkPrime(%d) message was %s; expected %s",
+				test.condition, test.data, outcome, test.outcome)
+		}
 	}
 }
