@@ -9,9 +9,12 @@ func Test_checkPrime(t *testing.T) {
 		result    bool
 		outcome   string
 	}{
-		{"0 is not prime", 0, false, "0 is not prime"},
-		{"4 is not prime", 4, false, "4 is not prime; divisible by 2"},
-		{"7 is prime", 7, true, "7 is prime"},
+		{"not prime", -1, false, "negative numbers are not prime"},
+		{"not prime", 0, false, "0 is not prime"},
+		{"not prime", 1, false, "1 is not prime"},
+		{"not prime", 4, false, "4 is not prime; divisible by 2"},
+		{"not prime", 9, false, "9 is not prime; divisible by 3"},
+		{"prime", 7, true, "7 is prime"},
 	}
 
 	for _, test := range primeTests {
