@@ -11,15 +11,11 @@ func main() {
 }
 
 func checkPrime(data int) (bool, string) {
-	if data == 0 || data == 1 {
+	if data <= 1 {
 		return false, fmt.Sprintf("%d is not prime", data)
 	}
 
-	if data < 0 {
-		return false, "negative numbers are not prime"
-	}
-
-	for i := 2; i <= data/2; i++ {
+	for i := 2; i*i <= data; i++ {
 		if data%i == 0 {
 			return false, fmt.Sprintf("%d is not prime; divisible by %d", data, i)
 		}

@@ -12,7 +12,7 @@ func Test_checkPrime(t *testing.T) {
 		result    bool
 		outcome   string
 	}{
-		{"not prime", -1, false, "negative numbers are not prime"},
+		{"not prime", -1, false, "-1 is not prime"},
 		{"not prime", 0, false, "0 is not prime"},
 		{"not prime", 1, false, "1 is not prime"},
 		{"not prime", 4, false, "4 is not prime; divisible by 2"},
