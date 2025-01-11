@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func Test_checkPrime(t *testing.T) {
 	primeTests := []struct {
@@ -18,7 +21,9 @@ func Test_checkPrime(t *testing.T) {
 	}
 
 	for _, test := range primeTests {
-		t.Run(test.condition, func(t *testing.T) {
+		testName := fmt.Sprintf("%s_%d", test.condition, test.data)
+
+		t.Run(testName, func(t *testing.T) {
 			result, outcome := checkPrime(test.data)
 
 			if test.result && !result {
