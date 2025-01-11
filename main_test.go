@@ -18,21 +18,23 @@ func Test_checkPrime(t *testing.T) {
 	}
 
 	for _, test := range primeTests {
-		result, outcome := checkPrime(test.data)
+		t.Run(test.condition, func(t *testing.T) {
+			result, outcome := checkPrime(test.data)
 
-		if test.result && !result {
-			t.Errorf("FAIL: %s - checkPrime(%d) was %t; expected %t",
-				test.condition, test.data, result, test.result)
-		}
+			if test.result && !result {
+				t.Errorf("FAIL: %s - checkPrime(%d) was %t; expected %t",
+					test.condition, test.data, result, test.result)
+			}
 
-		if !test.result && result {
-			t.Errorf("FAIL: %s - checkPrime(%d) was %t; expected %t",
-				test.condition, test.data, result, test.result)
-		}
+			if !test.result && result {
+				t.Errorf("FAIL: %s - checkPrime(%d) was %t; expected %t",
+					test.condition, test.data, result, test.result)
+			}
 
-		if test.outcome != outcome {
-			t.Errorf("FAIL: %s - checkPrime(%d) message was %s; expected %s",
-				test.condition, test.data, outcome, test.outcome)
-		}
+			if test.outcome != outcome {
+				t.Errorf("FAIL: %s - checkPrime(%d) message was %s; expected %s",
+					test.condition, test.data, outcome, test.outcome)
+			}
+		})
 	}
 }
