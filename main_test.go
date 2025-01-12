@@ -61,7 +61,16 @@ func Test_startup(t *testing.T) {
 
 	startup(&buf)
 
-	if !strings.Contains(buf.String(), "Enter a whole number") {
-		t.Errorf("incorrect startup; got '%s'", buf.String())
+	output := buf.String()
+
+	expectedLines := []string{
+		"Is number prime?",
+		"Enter a whole number; q to quit.",
+	}
+
+	for _, line := range expectedLines {
+		if !strings.Contains(output, line) {
+			t.Errorf("missing expected output: %q; got '%s'", line, output)
+		}
 	}
 }
