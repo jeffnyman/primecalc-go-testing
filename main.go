@@ -58,9 +58,9 @@ func getNumber(scanner *bufio.Scanner) (string, bool) {
 }
 
 func startup(out io.Writer) {
-	fmt.Println("Is number prime?")
-	fmt.Println("Enter a whole number; q to quit.")
-	prompt(os.Stdout)
+	fmt.Fprintln(out, "Is number prime?")
+	fmt.Fprintln(out, "Enter a whole number; q to quit.")
+	prompt(out)
 }
 
 func prompt(out io.Writer) {
