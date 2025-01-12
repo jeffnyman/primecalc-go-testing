@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -52,5 +53,15 @@ func Test_prompt(t *testing.T) {
 
 	if buf.String() != "> " {
 		t.Errorf("incorrect prompt; expected '>' | got '%s'", buf.String())
+	}
+}
+
+func Test_startup(t *testing.T) {
+	var buf bytes.Buffer
+
+	startup(&buf)
+
+	if !strings.Contains(buf.String(), "Enter a whole number") {
+		t.Errorf("incorrect startup; got '%s'", buf.String())
 	}
 }

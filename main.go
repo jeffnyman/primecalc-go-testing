@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	startup()
+	startup(os.Stdout)
 
 	exitChannel := make(chan bool)
 
@@ -57,7 +57,7 @@ func getNumber(scanner *bufio.Scanner) (string, bool) {
 	return outcome, false
 }
 
-func startup() {
+func startup(out io.Writer) {
 	fmt.Println("Is number prime?")
 	fmt.Println("Enter a whole number; q to quit.")
 	prompt(os.Stdout)
