@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -34,7 +35,7 @@ func getInput(exitChannel chan bool) {
 		}
 
 		fmt.Println(result)
-		prompt()
+		prompt(os.Stdout)
 	}
 }
 
@@ -59,11 +60,11 @@ func getNumber(scanner *bufio.Scanner) (string, bool) {
 func startup() {
 	fmt.Println("Is number prime?")
 	fmt.Println("Enter a whole number; q to quit.")
-	prompt()
+	prompt(os.Stdout)
 }
 
-func prompt() {
-	fmt.Print("> ")
+func prompt(out io.Writer) {
+	fmt.Fprint(out, "> ")
 }
 
 func checkPrime(data int) (bool, string) {

@@ -1,9 +1,8 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"io"
-	"os"
 	"testing"
 )
 
@@ -47,21 +46,11 @@ func Test_checkPrime(t *testing.T) {
 }
 
 func Test_prompt(t *testing.T) {
-	currentOut := os.Stdout
+	var buf bytes.Buffer
 
-	readPipe, writePipe, _ := os.Pipe()
+	prompt(&buf)
 
-	os.Stdout = writePipe
-
-	prompt()
-
-	_ = writePipe.Close()
-
-	os.Stdout = currentOut
-
-	terminalOutput, _ := io.ReadAll(readPipe)
-
-	if string(terminalOutput) != "> " {
-		t.Errorf("incorrect prompt; expected > | got %s", string(terminalOutput))
+	if buf.String() != "> " {
+		t.Errorf("incorrect prompt; expected '>' | got '%s'", buf.String())
 	}
 }
