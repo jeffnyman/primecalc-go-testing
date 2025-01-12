@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"os"
 	"testing"
 )
 
@@ -41,5 +43,25 @@ func Test_checkPrime(t *testing.T) {
 					test.condition, test.data, outcome, test.outcome)
 			}
 		})
+	}
+}
+
+func Test_prompt(t *testing.T) {
+	currentOut := os.Stdout
+
+	readPipe, writePipe, _ := os.Pipe()
+
+	os.Stdout = writePipe
+
+	prompt()
+
+	_ = writePipe.Close()
+
+	os.Stdout = currentOut
+
+	terminalOutput, _ := io.ReadAll(readPipe)
+
+	if string(terminalOutput) != "> " {
+		t.Errorf("incorrect prompt; expected > | got %s", string(terminalOutput))
 	}
 }
