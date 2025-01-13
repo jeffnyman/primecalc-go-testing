@@ -10,20 +10,24 @@ import (
 )
 
 func main() {
-	startup(os.Stdout)
+	run(os.Stdin, os.Stdout)
+}
+
+func run(input io.Reader, output io.Writer) {
+	startup(output)
 
 	exitChannel := make(chan bool)
 
-	go getInput(os.Stdin, exitChannel)
+	go getInput(input, output, exitChannel)
 
 	<-exitChannel
 
 	close(exitChannel)
 
-	fmt.Println("Exiting")
+	fmt.Fprintln(output, "Exiting")
 }
 
-func getInput(input io.Reader, exitChannel chan bool) {
+func getInput(input io.Reader, output io.Writer, exitChannel chan bool) {
 	scanner := bufio.NewScanner(input)
 
 	for {
@@ -34,7 +38,7 @@ func getInput(input io.Reader, exitChannel chan bool) {
 			return
 		}
 
-		fmt.Println(result)
+		fmt.Fprintln(output, result)
 		prompt(os.Stdout)
 	}
 }

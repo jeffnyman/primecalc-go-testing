@@ -111,12 +111,37 @@ func Test_getInput(t *testing.T) {
 	exitChannel := make(chan bool)
 
 	var stdin bytes.Buffer
+	var stdout bytes.Buffer
 
 	stdin.Write([]byte("7\nq\n"))
 
-	go getInput(&stdin, exitChannel)
+	go getInput(&stdin, &stdout, exitChannel)
 
 	<-exitChannel
 
 	close(exitChannel)
+}
+
+func Test_run(t *testing.T) {
+	var stdin bytes.Buffer
+	var stdout bytes.Buffer
+
+	stdin.WriteString("7\nq\n")
+
+	run(&stdin, &stdout)
+
+	output := stdout.String()
+
+	expectedLines := []string{
+		"Is number prime?",
+		"Enter a whole number; q to quit.",
+		"7 is prime",
+		"Exiting",
+	}
+
+	for _, line := range expectedLines {
+		if !strings.Contains(output, line) {
+			t.Errorf("missing expected output: %q; got '%s'", line, output)
+		}
+	}
 }
