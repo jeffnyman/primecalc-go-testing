@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"strings"
@@ -71,6 +72,37 @@ func Test_startup(t *testing.T) {
 	for _, line := range expectedLines {
 		if !strings.Contains(output, line) {
 			t.Errorf("missing expected output: %q; got '%s'", line, output)
+		}
+	}
+}
+
+func Test_getNumber(t *testing.T) {
+	tests := []struct {
+		condition string
+		data      string
+		expected  string
+	}{
+		{condition: "quit", data: "q", expected: ""},
+		{condition: "QUIT", data: "Q", expected: ""},
+		{condition: "empty", data: "", expected: "Enter a whole number"},
+		{condition: "text", data: "three", expected: "Enter a whole number"},
+		{condition: "decimal", data: "1.3", expected: "Enter a whole number"},
+		{condition: "negative", data: "-1", expected: "-1 is not prime"},
+		{condition: "zero", data: "0", expected: "0 is not prime"},
+		{condition: "one", data: "1", expected: "1 is not prime"},
+		{condition: "four", data: "4", expected: "4 is not prime; divisible by 2"},
+		{condition: "nine", data: "9", expected: "9 is not prime; divisible by 3"},
+		{condition: "seven", data: "7", expected: "7 is prime"},
+	}
+
+	for _, e := range tests {
+		input := strings.NewReader(e.data)
+		reader := bufio.NewScanner(input)
+
+		res, _ := getNumber(reader)
+
+		if !strings.EqualFold(res, e.expected) {
+			t.Errorf("%s: expected %s; got %s", e.condition, e.expected, res)
 		}
 	}
 }
