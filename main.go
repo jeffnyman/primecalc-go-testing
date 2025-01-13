@@ -14,7 +14,7 @@ func main() {
 
 	exitChannel := make(chan bool)
 
-	go getInput(exitChannel)
+	go getInput(os.Stdin, exitChannel)
 
 	<-exitChannel
 
@@ -23,8 +23,8 @@ func main() {
 	fmt.Println("Exiting")
 }
 
-func getInput(exitChannel chan bool) {
-	scanner := bufio.NewScanner(os.Stdin)
+func getInput(input io.Reader, exitChannel chan bool) {
+	scanner := bufio.NewScanner(input)
 
 	for {
 		result, done := getNumber(scanner)

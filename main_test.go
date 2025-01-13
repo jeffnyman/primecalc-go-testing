@@ -106,3 +106,17 @@ func Test_getNumber(t *testing.T) {
 		}
 	}
 }
+
+func Test_getInput(t *testing.T) {
+	exitChannel := make(chan bool)
+
+	var stdin bytes.Buffer
+
+	stdin.Write([]byte("7\nq\n"))
+
+	go getInput(&stdin, exitChannel)
+
+	<-exitChannel
+
+	close(exitChannel)
+}
